@@ -3,6 +3,7 @@ import * as THREE from "three";
 import { Sky } from "three/addons/objects/Sky.js";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { Timer } from "three/addons/misc/Timer.js";
+import { EXRLoader } from "three/addons/loaders/EXRLoader.js";
 import GUI from "lil-gui";
 import { normalMap } from "three/tsl";
 
@@ -30,17 +31,21 @@ const controls = new OrbitControls(camera, canvas);
 controls.enableDamping = true;
 //
 const textureLoader = new THREE.TextureLoader();
+const texturePath = `${import.meta.env.BASE_URL}Textures/`;
+textureLoader.setPath(texturePath);
+const exrLoader = new EXRLoader();
+exrLoader.setPath(texturePath);
+
 const floorGeometry = new THREE.PlaneGeometry(20, 20, 100, 100);
 
 const floorDisplacementTexture = textureLoader.load(
-  "../Textures/Floor_Texture/rocky_terrain_02_disp_1k.png",
+  "Floor_Texture/rocky_terrain_02_disp_1k.png",
 );
 const floorColorTexture = textureLoader.load(
-  "../Textures/Floor_Texture/rocky_terrain_02_diff_1k.jpg",
+  "Floor_Texture/rocky_terrain_02_diff_1k.jpg",
 );
-
-const floorRoughnessTexture = textureLoader.load(
-  "../Textures/Floor_Texture/rocky_terrain_02_rough_1k.jpg",
+const floorRoughnessTexture = exrLoader.load(
+  "Floor_Texture/rocky_terrain_02_rough_1k.exr",
 );
 floorColorTexture.colorSpace = THREE.SRGBColorSpace;
 
@@ -81,13 +86,13 @@ scene.add(hemisphereLight);
 //
 //Texture
 const wallColorTexture = textureLoader.load(
-  "../Textures/Wall_Texture/plastered_wall_05_diff_1k.jpg",
+  "Wall_Texture/plastered_wall_05_diff_1k.jpg",
 );
-const wallNormalTexture = textureLoader.load(
-  "../Textures/Wall_Texture/plastered_wall_05_nor_gl_1k.jpg",
+const wallNormalTexture = exrLoader.load(
+  "Wall_Texture/plastered_wall_05_nor_gl_1k.exr",
 );
-const wallRoughnessTexture = textureLoader.load(
-  "../Textures/Wall_Texture/plastered_wall_05_rough_1k.jpg",
+const wallRoughnessTexture = exrLoader.load(
+  "Wall_Texture/plastered_wall_05_rough_1k.exr",
 );
 wallColorTexture.colorSpace = THREE.SRGBColorSpace;
 
@@ -115,14 +120,15 @@ House_Walls.position.set(0, 2, 0);
 building.add(House_Walls);
 
 const roofColourTexture = textureLoader.load(
-  "../Textures/Roof/clay_roof_tiles_03_diff_1k.jpg",
+  "Roof/clay_roof_tiles_03_diff_1k.jpg",
 );
-const roofNormalTexture = textureLoader.load(
-  "../Textures/Roof/clay_roof_tiles_03_nor_gl_1k.jpg",
+const roofNormalTexture = exrLoader.load(
+  "Roof/clay_roof_tiles_03_nor_gl_1k.exr",
 );
-const roofRoughnessTexture = textureLoader.load(
-  "../Textures/Roof/clay_roof_tiles_03_rough_1k.jpg",
+const roofRoughnessTexture = exrLoader.load(
+  "Roof/clay_roof_tiles_03_rough_1k.exr",
 );
+roofColourTexture.colorSpace = THREE.SRGBColorSpace;
 
 const roofMaterial = new THREE.MeshStandardMaterial({
   map: roofColourTexture,
@@ -148,18 +154,18 @@ House_Roof.rotation.y = Math.PI * 0.25;
 House_Roof.position.set(0, 6, 0);
 building.add(House_Roof);
 
-const doorColorTexture = textureLoader.load("../Textures/door/color.jpg");
-const doorAlphaTexture = textureLoader.load("../Textures/door/alpha.jpg");
+const doorColorTexture = textureLoader.load("door/color.jpg");
+const doorAlphaTexture = textureLoader.load("door/alpha.jpg");
 const doorAmbientOcclusionTexture = textureLoader.load(
-  "../Textures/door/ambientOcclusion.jpg",
+  "door/ambientOcclusion.jpg",
 );
-const doorHeightTexture = textureLoader.load("../Textures/door/height.jpg");
-const doorNormalTexture = textureLoader.load("../Textures/door/normal.jpg");
+const doorHeightTexture = textureLoader.load("door/height.jpg");
+const doorNormalTexture = textureLoader.load("door/normal.jpg");
 const doorMetalnessTexture = textureLoader.load(
-  "../Textures/door/metalness.jpg",
+  "door/metalness.jpg",
 );
 const doorRoughnessTexture = textureLoader.load(
-  "../Textures/door/roughness.jpg",
+  "door/roughness.jpg",
 );
 
 doorColorTexture.colorSpace = THREE.SRGBColorSpace;
@@ -194,13 +200,13 @@ House_Door_right.rotation.y = -Math.PI * 0.5;
 building.add(House_Door_right);
 
 const Balcony_Door_ColorTexture = textureLoader.load(
-  "../Textures/Test/rusty_metal_diff_1k.jpg",
+  "Test/rusty_metal_diff_1k.jpg",
 );
-const Balcony_Door_NormalTexture = textureLoader.load(
-  "../Textures/Test/rusty_metal_nor_gl_1k.jpg",
+const Balcony_Door_NormalTexture = exrLoader.load(
+  "Test/rusty_metal_nor_gl_1k.exr",
 );
 const Balcony_Door_RoughtnessTexture = textureLoader.load(
-  "../Textures/Test/rusty_metal_rough_1k.jpg",
+  "Test/rusty_metal_rough_1k.jpg",
 );
 
 Balcony_Door_ColorTexture.colorSpace = THREE.SRGBColorSpace;
@@ -224,15 +230,15 @@ scene.add(building);
 
 //Home_Balcony
 const Balcony_Color_Texture = textureLoader.load(
-  "../Textures/Balcony/beige_wall_001_diff_1k.jpg",
+  "Balcony/beige_wall_001_diff_1k.jpg",
 );
-const Balcony_Normal_Texture = textureLoader.load(
-  "../Textures/Balcony/beige_wall_001_nor_gl_1k.jpg",
+const Balcony_Normal_Texture = exrLoader.load(
+  "Balcony/beige_wall_001_nor_gl_1k.exr",
 );
 const Balcony_Roughtness_Texture = textureLoader.load(
-  "../Textures/Balcony/beige_wall_001_rough_1k.jpg",
+  "Balcony/beige_wall_001_rough_1k.jpg",
 );
-Balcony_Door_ColorTexture.colorSpace = THREE.SRGBColorSpace;
+Balcony_Color_Texture.colorSpace = THREE.SRGBColorSpace;
 
 const Balcony_Material = new THREE.MeshStandardMaterial({
   map: Balcony_Color_Texture,
